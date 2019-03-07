@@ -53,6 +53,13 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
     //.addEntry('admin', './assets/js/admin.js')
+
+    // enable Vue
+    .enableVueLoader()
+
+    // add semantic-ui entries
+    .addEntry('semantic_styles', './node_modules/semantic-ui/dist/semantic.min.css')
+    .addEntry('semantic_javascripts', './node_modules/semantic-ui/dist/semantic.min.js')
 ;
 
 module.exports = Encore.getWebpackConfig();
