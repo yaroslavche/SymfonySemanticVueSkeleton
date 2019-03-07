@@ -16,7 +16,7 @@ $ cd projects/
 $ composer create-project symfony/skeleton symfony-semantic-vue-skeleton
 ```
 
-Enter the `symfony-semantic-vue-skeleton` dir and install `encore` and 
+Enter the `symfony-semantic-vue-skeleton` dir and install `encore` 
 ```bash
 $ cd symfony-semantic-vue-skeleton
 $ composer require encore
@@ -60,6 +60,9 @@ Create file named `semantic.json` with following content:
 
 and add to `webpack.config.js` next lines before exports:
 ```js
+    // enable JQuery for Semantic UI
+    .autoProvidejQuery()
+    
     // enable Vue
     .enableVueLoader()
 
@@ -68,4 +71,86 @@ and add to `webpack.config.js` next lines before exports:
     .addEntry('semantic_javascripts', './node_modules/semantic-ui/dist/semantic.min.js')
 ```
 
+Install and check:
+```bash
+$ yarn install
+$ yarn run encore dev
+```
+Browse `public/build` folder for ensure that all is builded.
 
+## Controller and View
+
+Install `annotations` and `symfony/twig-bundle`:
+```bash
+$ composer require annotations
+$ composer require symfony/twig-bundle
+```
+
+Create controller `src/Controller/SemanticVueExampleController.php`:
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class SemanticVueExampleController extends AbstractController
+{
+    /**
+     * @Route("/", name="semantic_vue_example")
+     */
+    public function semanticVueExample(): Response
+    {
+        return $this->render('semantic_vue_example.html.twig');
+    }
+}
+```
+
+and twig template `templates/semantic_vue_example.html.twig`:
+```twig
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SymfonySemanticVueSkeleton</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('semantic_styles') }}
+    {% endblock %}
+</head>
+<body>
+<div id="symfony-semantic-vue-example">
+    <div>SymfonySemanticVueExample</div>
+</div>
+{% block javascripts %}
+    {{ encore_entry_script_tags('semantic_styles') }}
+    {{ encore_entry_script_tags('semantic_javascripts') }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>
+```
+
+Then you can create your Vue instance in `assets/app.js` file. For example:
+```js
+require('../css/app.css');
+
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
+import Vue from 'vue';
+
+window.onload = function () {
+    const vm = new Vue({
+        el: '#symfony-semantic-vue-example'
+    });
+};
+
+```
+
+When all is done - don't forget rebuild:
+```bash
+$ yarn run encore dev
+```
