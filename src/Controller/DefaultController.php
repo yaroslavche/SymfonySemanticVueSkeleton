@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SemanticVueExampleController extends AbstractController
+class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="semantic_vue_example")
+     * @Route("/", name="vue_example")
      */
-    public function semanticVueExample(): Response
+    public function index(): Response
     {
-        return $this->render('semantic_vue_example.html.twig');
+        return $this->render('layout.html.twig');
     }
 }

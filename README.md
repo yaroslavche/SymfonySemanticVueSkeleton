@@ -1,10 +1,13 @@
+# Symfony 4 + Vue + Semantic UI
+
 # Installation from skeleton
 ```bash
 $ git clone git@github.com:yaroslavche/SymfonySemanticVueSkeleton.git myProject
 $ cd myProject
+$ composer install
 $ yarn install
 $ yarn run encore dev
-$ bin/console server:start 
+$ bin/console server:run 
 ```
 Go to [http://localhost:8000](http://localhost:8000)
 
